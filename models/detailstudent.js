@@ -16,7 +16,16 @@ module.exports = (sequelize, DataTypes) => {
   }
   DetailStudent.init({
     addres: DataTypes.STRING,
-    age: DataTypes.INTEGER,
+    age: {
+      type: DataTypes.INTEGER,
+      validate: {
+        min: {
+          args: 17,
+          msg: "woy ga boleh masuk umur lu kurang"
+        }
+        
+      }
+    },
     idStudent: DataTypes.INTEGER
   }, {
     sequelize,

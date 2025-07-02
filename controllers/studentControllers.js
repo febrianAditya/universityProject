@@ -82,26 +82,42 @@ class StudentControllers {
         }
     }
 
-    static async deleteDataStudents(req, res) {
+    static async deleteDataStudents(req, res, next) {
         try {
             let currentData = await fs.readFile("./dataStudent.json", "utf-8")
             let manipulateData = JSON.parse(currentData)
 
             let idParams = +req.params.id
 
-            let result = manipulateData.filter((el) => {
-                return el.id !== idParams
+            let cekData = manipulateData.find(el => {
+                return el.id === idParams
             })
 
-            console.log(result, "==> FINAL");
-            res.status(200).json({
-                message: "deleted successed"
-            })
+            // console.log(cekData, "==> CEK DATA");
+            if (!cekData) {
+                // res.status(404).json({ // codingan febrian
+                //     message: "not found"
+                // })
+
+                throw { status: 404, message: "not found"}
+            }
+            
+
+            // let result = manipulateData.filter((el) => {
+            //     return el.id !== idParams
+            // })
+
+            // console.log(result, "==> FINAL");
+            // res.status(200).json({
+            //     message: "deleted successed"
+            // })
 
         } catch (error) {
-            res.status(500).json({
-                message: "INTERNAL SERVER ERROR"
-            })
+            // console.log(error, "==> apa nich");
+            next(error)
+            // res.status(500).json({
+            //     message: "INTERNAL SERVER ERROR"
+            // })
         }
     }
 }
