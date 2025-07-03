@@ -13,16 +13,12 @@ class UserControllers {
 
             const salt = bcrypt.genSaltSync(saltRound)
             const hash = bcrypt.hashSync(password, salt)
-            // console.log(hash, "===> INI CEK");
-            
 
             let inputUser = {
                 username,
                 password: hash,
                 role
             }
-
-            // console.log(inputUser, "==> FINAL");
             
             const result = await User.create(inputUser)
             // // console.log(result, "==> APA SIH NIH");
@@ -33,8 +29,7 @@ class UserControllers {
             })
 
         } catch (error) {
-            console.log(error, "==> INI ERROR");
-            
+            console.log(error, "==> INI ERROR");  
         }
     }
 
@@ -80,6 +75,19 @@ class UserControllers {
             
             res.status(200).json({
                 token
+            })
+            
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async getAllDataUsers(req, res, next) {
+        try {
+            const dataUser = await User.findAll({ raw: true })
+            // console.log(dataUser, "==> APA SIHH");
+            res.status(200).json({
+                data: dataUser
             })
             
         } catch (error) {

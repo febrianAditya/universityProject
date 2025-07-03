@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       Student.hasOne(models.DetailStudent)
 
       Student.belongsToMany(models.Matkul, {
-        through: models.Krs
+        through: models.Krs,
+        foreignKey: "idStudent"
       })
     }
   }
